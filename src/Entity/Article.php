@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Article
 {
     #[ORM\Id]
@@ -27,9 +28,6 @@ class Article
     #[ORM\Column(nullable: true)]
     private ?\DateTime $created_at = null;
 
-    #[ORM\ManyToOne(inversedBy: 'article_id')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Commentaire $commentaire = null;
 
     public function getId(): ?int
     {
@@ -83,16 +81,18 @@ class Article
 
         return $this;
     }
-
-    public function getCommentaire(): ?Commentaire
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
     {
-        return $this->commentaire;
+        // Si la date est nulle, on met la date actuelle
+        if ($this->created_at === null) {
+            $this->created_at = new \DateTime();
+        }
     }
-
-    public function setCommentaire(?Commentaire $commentaire): static
+    public function __toString(): string
     {
-        $this->commentaire = $commentaire;
-
-        return $this;
+        // On retourne le titre de l'article pour qu'il soit 
+        // affiché dans les menus déroulants ou les listes
+        return $this->titre ?? 'Article sans titre';
     }
 }

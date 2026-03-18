@@ -100,7 +100,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function setRoles(array $roles): static
     {
-        $this->roles = $roles;
+        // On s'assure que ROLE_USER est toujours dans le tableau avant de sauvegarder
+        if (!in_array('ROLE_USER', $roles)) {
+            $roles[] = 'ROLE_USER';
+        }
+
+        $this->roles = array_unique($roles);
 
         return $this;
     }
@@ -220,4 +225,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+    public function __toString(): string
+{
+    // On affiche le prénom et le nom dans les menus déroulants
+    return $this->prenom . ' ' . $this->nom;
+}
 }
