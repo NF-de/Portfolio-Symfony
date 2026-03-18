@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProjetsRepository::class)]
+#[ORM\HasLifecycleCallbacks] // <--- ESSENTIEL pour que setInitialDate() fonctionne
 class Projets
 {
     #[ORM\Id]
@@ -32,11 +33,15 @@ class Projets
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    // Modification : nullable: true pour éviter l'erreur au moment de l'envoi du formulaire
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTime $date_creation = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $rapportPdf = null;
+
     #[ORM\Column]
-    private ?bool $en_vedette = null;
+    private ?bool $en_vedette = false; // Par défaut à false pour éviter les erreurs de null
 
     public function getId(): ?int
     {
@@ -51,7 +56,6 @@ class Projets
     public function setTitre(string $titre): static
     {
         $this->titre = $titre;
-
         return $this;
     }
 
@@ -63,7 +67,6 @@ class Projets
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -75,7 +78,6 @@ class Projets
     public function setTechnologies(?string $technologies): static
     {
         $this->technologies = $technologies;
-
         return $this;
     }
 
@@ -87,7 +89,6 @@ class Projets
     public function setLienDemo(?string $lien_demo): static
     {
         $this->lien_demo = $lien_demo;
-
         return $this;
     }
 
@@ -99,7 +100,6 @@ class Projets
     public function setLienGithub(?string $lien_github): static
     {
         $this->lien_github = $lien_github;
-
         return $this;
     }
 
@@ -111,7 +111,6 @@ class Projets
     public function setImage(?string $image): static
     {
         $this->image = $image;
-
         return $this;
     }
 
@@ -120,10 +119,10 @@ class Projets
         return $this->date_creation;
     }
 
-    public function setDateCreation(\DateTime $date_creation): static
+    // Modification : le paramètre accepte ?\DateTime (null)
+    public function setDateCreation(?\DateTime $date_creation): static
     {
         $this->date_creation = $date_creation;
-
         return $this;
     }
 
@@ -135,7 +134,28 @@ class Projets
     public function setEnVedette(bool $en_vedette): static
     {
         $this->en_vedette = $en_vedette;
-
         return $this;
+    }
+
+    public function getRapportPdf(): ?string
+    {
+        return $this->rapportPdf;
+    }
+
+    public function setRapportPdf(?string $rapportPdf): static
+    {
+        $this->rapportPdf = $rapportPdf;
+        return $this;
+    }
+
+    /**
+     * Automatisation de la date de création
+     */
+    #[ORM\PrePersist]
+    public function setInitialDate(): void
+    {
+        if ($this->date_creation === null) {
+            $this->date_creation = new \DateTime();
+        }
     }
 }

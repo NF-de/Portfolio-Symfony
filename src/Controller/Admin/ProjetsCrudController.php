@@ -3,12 +3,18 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Projets;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-
+use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 #[IsGranted('ROLE_ADMIN')]
 class ProjetsCrudController extends AbstractCrudController
 {
@@ -17,14 +23,69 @@ class ProjetsCrudController extends AbstractCrudController
         return Projets::class;
     }
 
-    /*
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setEntityLabelInSingular('Projet')
+            ->setEntityLabelInPlural('Projets')
+            ->setDefaultSort(['id' => 'DESC']);
+    }
+
     public function configureFields(string $pageName): iterable
     {
+        // Configuration pour les IMAGES
+        $imgUploadDir = 'public/uploads/projets';
+        $imgBasePath = 'uploads/projets';
+
+        // Configuration pour les PDF (Rapports)
+        $pdfUploadDir = 'public/uploads/rapports';
+        $pdfBasePath = 'uploads/rapports';
+
         return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
+
+            TextField::new('titre', 'Nom du projet'),
+
+            TextEditorField::new('description', 'Description détaillée')
+                ->hideOnIndex(),
+
+            TextField::new('technologies', 'Technologies utilisées')
+                ->setHelp('Exemple: Symfony, React, Tailwind...'),
+
+            UrlField::new('lien_demo', 'Lien Démo'),
+
+            UrlField::new('lien_github', 'Lien GitHub'),
+
+            // Image du projet
+            ImageField::new('image', 'Image du projet')
+                ->setUploadDir($imgUploadDir)
+                ->setBasePath($imgBasePath)
+                ->setUploadedFileNamePattern('[slug]-[timestamp].[extension]')
+                ->setRequired($pageName === Crud::PAGE_NEW)
+                ->hideOnIndex(),
+
+            Field::new('rapportPdf', 'Rapport de stage (PDF)')
+                ->setFormType(FileUploadType::class) // Le moteur d'upload universel
+                ->setFormTypeOptions([
+                    'upload_dir' => 'public/uploads/rapports',
+                    'upload_new' => function ($file, $uploadDir, $fileName) {
+                        $file->move($uploadDir, $fileName);
+                    },
+                    'attr' => [
+                        'accept' => 'application/pdf' // Filtre dans la fenêtre Windows/Mac
+                    ]
+                ])
+                // On définit comment le nom du fichier est généré
+                ->setCustomOption('basePath', 'uploads/rapports')
+                ->setCustomOption('uploadDir', 'public/uploads/rapports')
+                ->setCustomOption('uploadedFileNamePattern', '[slug]-[timestamp].pdf')
+                ->setHelp('Fichier PDF uniquement')
+                ->hideOnIndex(), // On le cache de la liste pour éviter les erreurs d'affichage
+
+            DateField::new('date_creation', 'Date de réalisation')
+                ->hideOnForm(),
+
+            BooleanField::new('en_vedette', 'Mettre en avant')
+                ->setHelp('Si activé, le projet apparaîtra dans la section "À la une"'),
         ];
     }
-    */
 }

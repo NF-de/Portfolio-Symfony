@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: VeilleTechnologiqueRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class VeilleTechnologique
 {
     #[ORM\Id]
@@ -92,5 +93,12 @@ class VeilleTechnologique
         $this->date_publication = $date_publication;
 
         return $this;
+    }
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        if ($this->date_publication === null) {
+            $this->date_publication = new \DateTime();
+        }
     }
 }
