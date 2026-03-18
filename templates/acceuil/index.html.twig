@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AcceuilController!{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <a href="{{ path('app_login') }}" class="btn">Se connecter</a>
+
+    {# Lien vers l'inscription (si vous avez fait le make:registration-form) #}
+    <a href="{{ path('app_register') }}">Créer un compte</a>
+</div>
+{% endblock %}

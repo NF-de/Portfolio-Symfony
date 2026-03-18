@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<link href="{{ asset('styles/login.css') }}" type="text/css" rel="stylesheet" />
+
+<h1>Inscription</h1>
+
+{# form_start génère la balise <form> et le jeton CSRF caché #}
+{{ form_start(registrationForm) }}
+
+    {{ form_errors(registrationForm) }}
+
+    {{ form_widget(registrationForm.nom, {'attr': {'placeholder': 'Nom'}}) }}
+    {{ form_widget(registrationForm.prenom, {'attr': {'placeholder': 'Prénom'}}) }}
+    {{ form_widget(registrationForm.email, {'attr': {'placeholder': 'Email'}}) }}
+    {{ form_widget(registrationForm.plainPassword, {'attr': {'placeholder': 'Mot de passe'}}) }}
+
+    <label>
+        {{ form_widget(registrationForm.agreeTerms) }}
+        J’accepte les conditions
+    </label>
+
+    <button type="submit">S’inscrire</button>
+
+{{ form_end(registrationForm) }} {# form_end ferme la balise </form> #}
+
+<p>
+    Déjà un compte ? <a href="{{ path('app_login') }}">Se connecter</a>
+</p>
+{% endblock %}

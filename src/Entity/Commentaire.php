@@ -34,6 +34,9 @@ class Commentaire
     #[ORM\Column(nullable: true)]
     private ?\DateTime $created_at = null;
 
+    #[ORM\ManyToOne(inversedBy: 'commentaires')]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->article_id = new ArrayCollection();
@@ -125,6 +128,18 @@ class Commentaire
     public function setCreatedAt(?\DateTime $created_at): static
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
