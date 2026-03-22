@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.titre }} - Mateo{% endblock %}
+
+{% block body %}
+<main>
+    <section class="card card-center">
+        <h1>{{ article.titre }}</h1>
+        <p>{{ article.contenu }}</p>
+        <p><em>Publié le {{ article.createdAt|date('d/m/Y H:i') }} par {{ article.auteurId }}</em></p>
+    </section>
+
+    <section class="card card-center">
+        <h2>Commentaires ({{ article.commentaires|length }})</h2>
+
+        {% if article.commentaires|length > 0 %}
+            <ul>
+                {% for commentaire in article.commentaires %}
+                    <li>
+                        <strong>{{ commentaire.user }}</strong> 
+                        <em>le {{ commentaire.createdAt|date('d/m/Y H:i') }}</em>
+                        <p>{{ commentaire.contenu }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Aucun commentaire pour le moment.</p>
+        {% endif %}
+    </section>
+
+    {% if app.user %}
+        <section class="card card-center">
+            <h2>Ajouter un commentaire</h2>
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button class="btn-scenik" type="submit">Envoyer</button>
+            {{ form_end(form) }}
+        </section>
+    {% else %}
+        <p>Vous devez être connecté pour commenter.</p>
+    {% endif %}
+</main>
+{% endblock %}

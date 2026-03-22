@@ -5,6 +5,9 @@ namespace App\Entity;
 use App\Repository\ArticleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Commentaire;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -17,7 +20,7 @@ class Article
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?user $auteur_id = null;
+    private ?User $auteur_id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $titre = null;
@@ -28,18 +31,51 @@ class Article
     #[ORM\Column(nullable: true)]
     private ?\DateTime $created_at = null;
 
+    #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'article')]
+    private Collection $commentaires;
+
+    public function __construct()
+    {
+        $this->commentaires = new ArrayCollection();
+    }
+
+    public function getCommentaires(): Collection
+    {
+        return $this->commentaires;
+    }
+
+    public function addCommentaire(Commentaire $commentaire): static
+    {
+        if (!$this->commentaires->contains($commentaire)) {
+            $this->commentaires->add($commentaire);
+            $commentaire->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaire $commentaire): static
+    {
+        if ($this->commentaires->removeElement($commentaire)) {
+            if ($commentaire->getArticle() === $this) {
+                $commentaire->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getAuteurId(): ?user
+    public function getAuteurId(): ?User
     {
         return $this->auteur_id;
     }
 
-    public function setAuteurId(?user $auteur_id): static
+    public function setAuteurId(?User $auteur_id): static
     {
         $this->auteur_id = $auteur_id;
 

@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Articles - Mateo{% endblock %}
+
+{% block body %}
+<main>
+    <h1>Articles</h1>
+    <div class="cards-container">
+        {% for article in articles %}
+            <a href="{{ path('app_articles_detail', {'id': article.id}) }}">
+                <section class="card left" id="article-{{ article.id }}">
+                    <h2>{{ article.titre }}</h2>
+                    <p>{{ article.contenu|length > 200 ? article.contenu[:200] ~ '...' : article.contenu }}</p>
+                </section>
+            </a>
+        {% else %}
+            <p>Aucun article pour le moment.</p>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}
