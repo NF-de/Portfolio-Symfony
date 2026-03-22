@@ -1,20 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello VeilleController!{% endblock %}
+{% block title %}Veille Technologique - Mateo{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<main>
+    <h1>Veille Technologique</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/NF/Desktop/portfolio-symfony/src/Controller/VeilleController.php</code></li>
-        <li>Your template at <code>C:/Users/NF/Desktop/portfolio-symfony/templates/veille/index.html.twig</code></li>
-    </ul>
-</div>
+    {% if veille is not empty %}
+        <section class="cards-container">
+            {% for item in veille %}
+                <section class="card">
+                    {% if item.image %}
+                        <img src="{{ asset('uploads/veille/' ~ item.image) }}" alt="{{ item.titre }}" style="max-width:200px; margin-bottom:10px;">
+                    {% endif %}
+                    <h3>{{ item.titre }}</h3>
+                    <p>{{ item.description }}</p>
+                    {% if item.urlSource %}
+                        <p><a href="{{ item.urlSource }}" target="_blank">Voir la source</a></p>
+                    {% endif %}
+                    <p><em>Publié le {{ item.datePublication|date('d/m/Y') }}</em></p>
+                </section>
+            {% endfor %}
+        </section>
+    {% else %}
+        <p>Aucun article de veille pour le moment.</p>
+    {% endif %}
+</main>
 {% endblock %}
