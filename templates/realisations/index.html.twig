@@ -1,20 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello RealisationsController!{% endblock %}
+{% block title %}Mes Réalisations - Mateo{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<main>
+    <h1>Mes Réalisations</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    {% for type, projets in projetsParType %}
+        <h2>{{ type|capitalize }}</h2>
+        <section class="cards-container">
+            {% for projet in projets %}
+                <section class="card left" id="projet-{{ projet.id }}">
+                    {% if projet.image %}
+                        <img src="{{ asset('uploads/projets/' ~ projet.image) }}" alt="{{ projet.titre }}" style="max-width:200px; margin-bottom:10px;">
+                    {% endif %}
+                    <h3>{{ projet.titre }}</h3>
+                    <p>{{ projet.description }}</p>
+                    {% if projet.technologies %}
+                        <p><strong>Technologies :</strong> {{ projet.technologies }}</p>
+                    {% endif %}
+                    <p><em>Créé le {{ projet.dateCreation|date('d/m/Y') }}</em></p>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/NF/Desktop/portfolio-symfony/src/Controller/RealisationsController.php</code></li>
-        <li>Your template at <code>C:/Users/NF/Desktop/portfolio-symfony/templates/realisations/index.html.twig</code></li>
-    </ul>
-</div>
+                    <div class="links">
+                        {% if projet.lienDemo %}
+                            <a href="{{ projet.lienDemo }}" target="_blank">Voir la démo</a>
+                        {% endif %}
+                        {% if projet.lienGithub %}
+                            <a href="{{ projet.lienGithub }}" target="_blank">Voir GitHub</a>
+                        {% endif %}
+                        {% if projet.rapportPdf %}
+                            <a href="{{ asset('uploads/projets/' ~ projet.rapportPdf) }}" target="_blank">Télécharger le PDF</a>
+                        {% endif %}
+                    </div>
+                </section>
+            {% else %}
+                <p>Aucun projet pour ce type.</p>
+            {% endfor %}
+        </section>
+    {% endfor %}
+</main>
 {% endblock %}

@@ -7,7 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProjetsRepository::class)]
-#[ORM\HasLifecycleCallbacks] // <--- ESSENTIEL pour que setInitialDate() fonctionne
+#[ORM\HasLifecycleCallbacks]
 class Projets
 {
     #[ORM\Id]
@@ -42,7 +42,19 @@ class Projets
 
     #[ORM\Column]
     private ?bool $en_vedette = false; // Par défaut à false pour éviter les erreurs de null
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $type = null;
 
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): static
+    {
+        $this->type = $type;
+        return $this;
+    }
     public function getId(): ?int
     {
         return $this->id;

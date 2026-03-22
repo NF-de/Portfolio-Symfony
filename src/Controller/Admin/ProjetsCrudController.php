@@ -15,6 +15,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+
 #[IsGranted('ROLE_ADMIN')]
 class ProjetsCrudController extends AbstractCrudController
 {
@@ -42,18 +44,20 @@ class ProjetsCrudController extends AbstractCrudController
         $pdfBasePath = 'uploads/rapports';
 
         return [
-
             TextField::new('titre', 'Nom du projet'),
-
-            TextEditorField::new('description', 'Description détaillée')
-                ->hideOnIndex(),
-
+            TextEditorField::new('description', 'Description détaillée')->hideOnIndex(),
             TextField::new('technologies', 'Technologies utilisées')
                 ->setHelp('Exemple: Symfony, React, Tailwind...'),
-
             UrlField::new('lien_demo', 'Lien Démo'),
-
             UrlField::new('lien_github', 'Lien GitHub'),
+
+            ChoiceField::new('type', 'Type de projet')
+                ->setChoices([
+                    'Professionnel' => 'professionnel',
+                    'Cours' => 'cours',
+                    'TP' => 'tp',
+                ])
+                ->setRequired(true),
 
             // Image du projet
             ImageField::new('image', 'Image du projet')
