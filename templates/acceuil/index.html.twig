@@ -1,12 +1,139 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AcceuilController!{% endblock %}
+{% block title %}Portfolio Mateo{% endblock %}
+
+{% block stylesheets %}
+{# On importe ton CSS spécifique au portfolio #}
+<link rel="stylesheet" href="{{ asset('styles/acceuil.css') }}">
+{% endblock %}
 
 {% block body %}
-<div class="example-wrapper">
-    <a href="{{ path('app_login') }}" class="btn">Se connecter</a>
+<div class="background-fumee"></div>
 
-    {# Lien vers l'inscription (si vous avez fait le make:registration-form) #}
-    <a href="{{ path('app_register') }}">Créer un compte</a>
+{# Zone de connexion ajoutée en haut #}
+
+<div class="scroll-zone">
+    <div class="scroll-content"></div>
+    <div class="scroll-overlay"></div>
 </div>
+
+<main>
+    <div class="cards-container">
+        <nav class="navbar">
+            <a href="{{ path('app_login') }}" class="btn-login">
+                Se connecter
+            </a>
+
+            <a href="{{ path('app_register') }}" class="btn-register">
+                Créer un compte
+            </a>
+        </nav>
+
+        <div class="hero-card">
+            <div class="photo">
+                <img src="{{ asset('Images/photo.png') }}" alt="Photo" width="200" height="200">
+            </div>
+            <div class="info">
+                <h1><span class="first-name">MATEO</span><br><span class="last-name">FIALOUX</span></h1>
+            </div>
+        </div>
+
+        <section class="card right" id="section00">
+            <a href="{{ path('app_acceuil') }}" class="card-link">
+                <span class="index">00.</span>
+                <h2 class="titre-00 titre-section">Présentation</h2>
+                <p class="texte">
+                    Je m'appelle Matéo Fialoux, j'ai 18 ans et je suis actuellement en BTS
+                    Services Informatiques aux Organisations à Gap.<br><br>
+                    Passionné par le développement web, je conçois des sites modernes,
+                    performants et intuitifs.<br><br>
+                    Mon objectif est de devenir développeur professionnel et de participer
+                    à des projets innovants.
+                </p>
+            </a>
+        </section>
+
+        <section class="card left" id="section01">
+            <a href="{{ path('app_acceuil') }}" class="card-link">
+                <span class="index">01.</span>
+                <h2 class="titre-01 titre-section">Mon parcours / CV</h2>
+                <p class="texte">
+                    <strong>BTS SIO — Option SLAM</strong><br>
+                    2024 — 2026<br>
+                    Lycée Dominique Villars, Gap<br><br>
+
+                    <strong>Bac Professionnel Systèmes Numériques</strong> (Mention Bien)<br>
+                    2020 — 2023<br>
+                    Lycée Dominique Villars, Gap<br><br>
+
+                    Compétences principales : HTML, CSS, JavaScript, PHP, MySQL, Python, Linux.
+                </p>
+            </a>
+        </section>
+        <section class="card left" id="section02">
+            <a href="{{ path('app_acceuil') }}" class="card-link">
+                <span class="index">02.</span>
+                <h2 class="titre-02 titre-section">Réalisations</h2>
+                <p class="texte">
+                    <strong>Application Scénic</strong><br>
+                    Développement d'une application web pour la médiathèque de Veynes
+                    (JS, PHP, WordPress).<br><br>
+
+                    <strong>Portail pharmaceutique</strong><br>
+                    Site réalisé lors d'un stage chez Netceler en HTML/CSS.<br><br>
+
+                    D'autres projets personnels sont disponibles sur demande.
+                </p>
+            </a>
+        </section>
+        <section class="card left" id="section03">
+            <a href="{{ path('app_acceuil') }}" class="card-link">
+                <span class="index">03.</span>
+                <h2 class="titre-03 titre-section">Articles</h2>
+                <p class="texte">
+                    Rédaction d'articles techniques et informatifs liés à l'informatique et
+                    au développement.<br><br>
+
+                    Exemple :<br>
+                    — Présentation des bases du développement web<br>
+                    — Introduction à la cybersécurité<br>
+                    — Bonnes pratiques en programmation
+                </p>
+            </a>
+        </section>
+
+        <section class="card left" id="section04">
+            <a href="{{ path('app_acceuil') }}" class="card-link">
+                <span class="index">04.</span>
+                <h2 class="titre-04 titre-section">Veille technologique</h2>
+                <p class="texte">
+                    Réalisation d'une veille sur les nouvelles technologies du web et de la cybersécurité.<br><br>
+
+                    Sujets suivis :<br>
+                    — Évolution de JavaScript et des frameworks modernes<br>
+                    — Sécurité informatique et protection des données<br>
+                    — Intelligence artificielle appliquée au développement
+                </p>
+            </a>
+        </section>
+    </div>
+
+    </div>
+
+    <footer>
+        <span class="index">05.</span>
+        <h2 class="titre-05 titre-section">Contact</h2>
+        <div class="footer-content" id="section05">
+            <span>06 38 53 63 87</span>
+            <div class="footer-divider"></div>
+            <span>fialouxmateo@gmail.com</span>
+            <div class="footer-divider"></div>
+            <span>158 Impasse de Beau Chênes, 05400 Oze</span>
+        </div>
+    </footer>
+</main>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('script.js') }}"></script>
 {% endblock %}
