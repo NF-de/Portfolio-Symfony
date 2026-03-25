@@ -2,20 +2,78 @@
 
 {% block title %}Articles - Mateo{% endblock %}
 
+{% block stylesheets %}
+    {# On réutilise le CSS du parcours pour avoir le même design #}
+    <link rel="stylesheet" href="{{ asset('styles/article.css') }}">
+{% endblock %}
+
 {% block body %}
+<div class="background-fumee"></div>
+<div class="scroll-zone">
+    <div class="scroll-content"></div>
+    <div class="scroll-overlay"></div>
+</div>
+
 <main>
-    <h1>Articles</h1>
-    <div class="cards-container">
-        {% for article in articles %}
-            <a href="{{ path('app_articles_detail', {'id': article.id}) }}">
-                <section class="card left" id="article-{{ article.id }}">
-                    <h2>{{ article.titre }}</h2>
-                    <p>{{ article.contenu|length > 200 ? article.contenu[:200] ~ '...' : article.contenu }}</p>
-                </section>
-            </a>
+    <nav class="navbar">
+        {% if app.user %}
+            <form method="post" action="{{ path('app_logout') }}" style="display:inline;">
+                <button type="submit" class="btn-logout">Se déconnecter</button>
+            </form>
+            <a href="{{ path('app_acceuil') }}" class="btn-register">Retour à l'accueil</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('admin') }}" class="btn-register">Dashboard</a>
+            {% endif %}
         {% else %}
-            <p>Aucun article pour le moment.</p>
-        {% endfor %}
+            <a href="{{ path('app_login') }}" class="btn-login">Se connecter</a>
+            <a href="{{ path('app_register') }}" class="btn-register">Créer un compte</a>
+            <a href="{{ path('app_acceuil') }}" class="btn-register">Retour à l'accueil</a>
+        {% endif %}
+    </nav>
+
+    <div class="hero-card">
+        <h1>Articles</h1>
     </div>
+
+    <div class="cards-container">
+    {% for article in articles %}
+        {# On utilise une balise <a> au lieu de section pour que toute la carte soit un lien #}
+        <a href="{{ path('app_articles_detail', {'id': article.id}) }}" class="card card-horizontal card-link" id="article-{{ article.id }}">
+            <div class="card-text">
+                <h3>{{ article.titre }}</h3>
+                <div class="description-raw">
+                    {# On utilise striptags pour éviter de casser le HTML si le contenu est du Rich Text #}
+                    {{ article.contenu|striptags|length > 250 ? article.contenu|striptags[:250] ~ '...' : article.contenu|striptags }}
+                </div>
+                <p class="date-parcours">Publié le {{ article.createdAt ? article.createdAt|date('d/m/Y') : 'récemment' }}</p>
+            </div>
+
+            {% if article.image is defined and article.image %}
+            <div class="card-image">
+                <img src="{{ asset('uploads/articles/' ~ article.image) }}" alt="{{ article.titre }}">
+            </div>
+            {% endif %}
+        </a>
+    {% else %}
+        <div class="hero-card" style="margin-top: 20px;">
+            <p>Aucun article pour le moment.</p>
+        </div>
+    {% endfor %}
+</div>
+
+    <footer>
+        <h2 class="titre-05 titre-section">Contact</h2>
+        <div class="footer-content">
+            <span>06 38 53 63 87</span>
+            <div class="footer-divider"></div>
+            <span>fialouxmateo@gmail.com</span>
+            <div class="footer-divider"></div>
+            <span>158 Impasse de Beau Chênes, 05400 Oze</span>
+        </div>
+    </footer>
 </main>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('script.js') }}"></script>
 {% endblock %}
