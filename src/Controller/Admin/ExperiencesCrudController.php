@@ -58,7 +58,7 @@ class ExperiencesCrudController extends AbstractCrudController
                 ->setHelp('Laisser vide si vous y êtes encore')
                 ->setColumns(3),
 
-            TextEditorField::new('description', 'Missions et réalisations')
+            TextField::new('description', 'Missions et réalisations')
                 ->hideOnIndex(),
         ];
     }

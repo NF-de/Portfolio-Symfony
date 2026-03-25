@@ -41,7 +41,7 @@ class FormationsCrudController extends AbstractCrudController
             
             TextField::new('ville', 'Ville'),
 
-            TextEditorField::new('description', 'Détails de la formation')
+            TextField::new('description', 'Détails de la formation')
                 ->hideOnIndex(),
 
             DateField::new('date_debut', 'Date de début')
