@@ -121,29 +121,33 @@ canvas {
 }
 
 .card-image {
-    flex: 1; 
-    width: 100%;
-    height: 100%; /* Il va remplir les 400px restants */
-    display: flex;
+    flex: 0 0 200px; /* Largeur fixe pour l'image dans la carte (tu peux ajuster) */
+    height: 180px;   /* Hauteur fixe pour l'image */
+    display: flex;   /* Pour centrer l'image à l'intérieur s'il y a du vide */
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.3); /* Optionnel : fond sombre pour le vide */
+    border-radius: 8px;
+    overflow: hidden; /* Sécurité pour ne pas qu'elle sorte */
 }
-
 .card-image img {
-    max-width: 100%;
-    max-height: 100%;
+    max-width: 100%;  /* Ne dépasse pas la largeur du conteneur parent */
+    max-height: 100%; /* Ne dépasse pas la hauteur du conteneur parent */
     
-    object-fit: contain;
+    /* MODIFICATION ICI */
+    object-fit: contain; /* L'image entière est visible, sans être coupée */
     
-    width: auto;
-    height: auto;
+    width: auto;      /* Laisse le navigateur gérer le ratio largeur */
+    height: auto;     /* Laisse le navigateur gérer le ratio hauteur */
     
     display: block;
     opacity: 0.9;
 }
-
+.card.right, .card.left, .card-center {
+    align-self: auto;
+    margin: 0;
+    width: calc(45% - 15px);
+}
 .btn-register,
 .btn-login,
 .btn-logout {
@@ -187,12 +191,7 @@ canvas {
     flex-direction: column;
     justify-content: space-between;
 }
-.card-text {
-    flex: 0 0 auto; /* Ne s'étire pas, garde sa taille naturelle */
-    margin-bottom: 10px;
-    max-height: 150px; /* Optionnel : pour éviter que le texte mange toute la carte */
-    overflow: hidden;
-}
+
 
 .card:hover {
     background-color: rgba(255, 255, 255, 0.05);

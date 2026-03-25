@@ -40,12 +40,12 @@ class ProjetsCrudController extends AbstractCrudController
         $imgBasePath = 'uploads/projets';
 
         // Configuration pour les PDF (Rapports)
-        $pdfUploadDir = 'public/uploads/rapports';
-        $pdfBasePath = 'uploads/rapports';
+        $pdfUploadDir = 'public/uploads/projets';
+        $pdfBasePath = 'uploads/projets';
 
         return [
             TextField::new('titre', 'Nom du projet'),
-            TextEditorField::new('description', 'Description détaillée')->hideOnIndex(),
+            TextField::new('description', 'Description détaillée')->hideOnIndex(),
             TextField::new('technologies', 'Technologies utilisées')
                 ->setHelp('Exemple: Symfony, React, Tailwind...'),
             UrlField::new('lien_demo', 'Lien Démo'),
@@ -68,16 +68,24 @@ class ProjetsCrudController extends AbstractCrudController
                 ->hideOnIndex(),
 
             Field::new('rapportPdf', 'Rapport de stage (PDF)')
-                ->setFormType(FileUploadType::class) // Le moteur d'upload universel
+                ->setFormType(FileUploadType::class)
                 ->setFormTypeOptions([
-                    'upload_dir' => 'public/uploads/rapports',
+                    'upload_dir' => $pdfUploadDir,
                     'upload_new' => function ($file, $uploadDir, $fileName) {
                         $file->move($uploadDir, $fileName);
                     },
-                    'attr' => [
-                        'accept' => 'application/pdf' // Filtre dans la fenêtre Windows/Mac
-                    ]
                 ])
+                // Nettoyage du nom de fichier : ENLEVER LES ESPACES
+                ->setCustomOption('uploadedFileNamePattern', '[slug]-[timestamp].[extension]')
+                ->formatValue(function ($value, $entity) use ($pdfBasePath) {
+                    if (!$value)
+                        return 'Aucun PDF';
+                    // On force le lien vers le bon dossier
+                    return sprintf('<a href="/%s/%s" target="_blank">📄 Voir le PDF</a>', $pdfBasePath, $value);
+                })
+                ->setHelp('Évitez les espaces dans le nom du fichier')
+                ->setHelp('Fichier PDF uniquement')
+                ->hideOnIndex()
                 // On définit comment le nom du fichier est généré
                 ->setCustomOption('basePath', 'uploads/rapports')
                 ->setCustomOption('uploadDir', 'public/uploads/rapports')
