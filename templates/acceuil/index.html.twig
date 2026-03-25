@@ -18,17 +18,26 @@
 </div>
 
 <main>
+
     <div class="cards-container">
+
         <nav class="navbar">
-            <a href="{{ path('app_login') }}" class="btn-login">
-                Se connecter
-            </a>
+            {% if app.user %}
+            {# L'utilisateur est connecté -> bouton de déconnexion #}
+            <form method="post" action="{{ path('app_logout') }}" style="display:inline;">
+                <button type="submit" class="btn-register">Se déconnecter</button>
+            </form>
 
-            <a href="{{ path('app_register') }}" class="btn-register">
-                Créer un compte
-            </a>
+            {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('admin') }}" class="btn-register">Dashboard</a>
+            {% endif %}
+
+            {% else %}
+            {# L'utilisateur n'est pas connecté -> boutons login / register #}
+            <a href="{{ path('app_login') }}" class="btn-login">Se connecter</a>
+            <a href="{{ path('app_register') }}" class="btn-register">Créer un compte</a>
+            {% endif %}
         </nav>
-
         <div class="hero-card">
             <div class="photo">
                 <img src="{{ asset('Images/photo.png') }}" alt="Photo" width="200" height="200">

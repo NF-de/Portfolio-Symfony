@@ -1,32 +1,64 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/login.css') }}">
+{% endblock %}
 
 {% block body %}
-<link href="{{ asset('styles/login.css') }}" type="text/css" rel="stylesheet" />
 
-<h1>Inscription</h1>
+<div class="background-fumee"></div>
 
-{# form_start génère la balise <form> et le jeton CSRF caché #}
-{{ form_start(registrationForm) }}
+<div class="scroll-zone">
+    <div class="scroll-content"></div>
+    <div class="scroll-overlay"></div>
+</div>
 
-    {{ form_errors(registrationForm) }}
+<main>
 
-    {{ form_widget(registrationForm.nom, {'attr': {'placeholder': 'Nom'}}) }}
-    {{ form_widget(registrationForm.prenom, {'attr': {'placeholder': 'Prénom'}}) }}
-    {{ form_widget(registrationForm.email, {'attr': {'placeholder': 'Email'}}) }}
-    {{ form_widget(registrationForm.plainPassword, {'attr': {'placeholder': 'Mot de passe'}}) }}
+    <div class="cards-container">
 
-    <label>
-        {{ form_widget(registrationForm.agreeTerms) }}
-        J’accepte les conditions
-    </label>
+        <div class="register-wrapper">
 
-    <button type="submit">S’inscrire</button>
+            <form method="post" class="card card-center">
 
-{{ form_end(registrationForm) }} {# form_end ferme la balise </form> #}
+                <h2 class="titre-section">Inscription</h2>
 
-<p>
-    Déjà un compte ? <a href="{{ path('app_login') }}">Se connecter</a>
-</p>
+                {{ form_errors(registrationForm) }}
+
+                <label>Nom</label>
+                {{ form_widget(registrationForm.nom, {'attr': {'placeholder': 'Nom'}}) }}
+
+                <label>Prénom</label>
+                {{ form_widget(registrationForm.prenom, {'attr': {'placeholder': 'Prénom'}}) }}
+
+                <label>Email</label>
+                {{ form_widget(registrationForm.email, {'attr': {'placeholder': 'Email'}}) }}
+
+                <label>Mot de passe</label>
+                {{ form_widget(registrationForm.plainPassword, {'attr': {'placeholder': 'Mot de passe'}}) }}
+
+                <div class="checkbox-label">
+                    {{ form_widget(registrationForm.agreeTerms) }}
+                    <span>J’accepte les conditions</span>
+                </div>
+
+                <button type="submit" class="btn-scenik">S’inscrire</button>
+
+                <p style="margin-top:15px;">
+                    Déjà un compte ? <a href="{{ path('app_login') }}">Se connecter</a>
+                </p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</main>
+
+{% endblock %}
+
+{% block javascripts %}
 {% endblock %}

@@ -1,41 +1,62 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connexion{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/login.css') }}">
+{% endblock %}
 
 {% block body %}
-    <form method="post">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
 
-        {% if app.user %}
-            <div class="mb-3">
-                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ logout_path() }}">Logout</a>
-            </div>
-        {% endif %}
+<div class="background-fumee"></div>
 
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="username">Email</label>
-        <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
-        <label for="password">Password</label>
-        <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
-        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+<div class="scroll-zone">
+    <div class="scroll-content"></div>
+    <div class="scroll-overlay"></div>
+</div>
 
-        {#
-            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-            See https://symfony.com/doc/current/security/remember_me.html
+<main>
 
-            <div class="checkbox mb-3">
-                <input type="checkbox" name="_remember_me" id="_remember_me">
-                <label for="_remember_me">Remember me</label>
-            </div>
-        #}
 
-        <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
-        </button>
-    </form>
-    <p>
-    Déjà un compte ? <a href="{{ path('app_register') }}" class="btn">S'inscrire</a>
-</p>
+    <!-- CONTENU CENTRÉ -->
+    <div class="cards-container">
+
+        <div class="login-wrapper">
+
+            <form method="post" class="card card-center">
+
+                {% if error %}
+                    <div class="login-error">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </div>
+                {% endif %}
+
+                <h2 class="titre-section">Connexion</h2>
+
+                <label>Email</label>
+                <input type="email" name="_username" value="{{ last_username }}" required>
+
+                <label>Mot de passe</label>
+                <input type="password" name="_password" required>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <button class="btn-scenik">Se connecter</button>
+
+                <p style="margin-top:15px;">
+                    Pas de compte ?
+                    <a href="{{ path('app_register') }}">S'inscrire</a>
+                </p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</main>
+
+{% endblock %}
+
+{% block javascripts %}
 {% endblock %}
