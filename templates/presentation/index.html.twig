@@ -2,13 +2,61 @@
 
 {% block title %}Présentation - Mateo{% endblock %}
 
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('styles/presentation.css') }}">
+{% endblock %}
+
 {% block body %}
+<div class="background-fumee"></div>
+
+<div class="scroll-zone">
+    <div class="scroll-content"></div>
+    <div class="scroll-overlay"></div>
+</div>
+
 <main>
-    <section class="card card-center">
-        <h1>Présentation</h1>
-        <p>Je m'appelle Matéo Fialoux, j'ai 18 ans et je suis actuellement en BTS Services Informatiques aux Organisations à Gap.</p>
-        <p>Passionné par le développement web, j’aime concevoir et créer des sites modernes et fonctionnels.</p>
-        <p>Titulaire d’un bac professionnel Systèmes Numériques (mention bien), j’ai pu acquérir des bases solides en informatique.</p>
-    </section>
+
+    <div class="cards-container">
+
+        <nav class="navbar">
+            <{% if app.user %} <form method="post" action="{{ path('app_logout') }}" style="display:inline;">
+                <button type="submit" class="btn-logout">Se déconnecter</button>
+                </form>
+                <a href="{{ path('app_acceuil') }}" class="btn-register">Retour a l'acceuil</a>
+
+                {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('admin') }}" class="btn-register">Dashboard</a>
+                {% endif %}
+                {% else %}
+                <a href="{{ path('app_login') }}" class="btn-login">Se connecter</a>
+                <a href="{{ path('app_register') }}" class="btn-register">Créer un compte</a>
+                <a href="{{ path('app_acceuil') }}" class="btn-register">Retour a l'acceuil</a>
+
+                {% endif %}>
+        </nav>
+
+        <div class="hero-card">
+            <div class="info">
+                <h1>Présentation</h1>
+            </div>
+        </div>
+
+        <section class="card card-center" id="section00">
+            <p class="texte">
+                Je m'appelle Matéo Fialoux, j'ai 18 ans et je suis actuellement en BTS
+                Services Informatiques aux Organisations à Gap.<br><br>
+                Passionné par le développement web, je conçois des sites modernes,
+                performants et intuitifs.<br><br>
+                Mon objectif est de devenir développeur professionnel et de participer
+                à des projets innovants.
+            </p>
+        </section>
+
+    </div>
+
 </main>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('script.js') }}"></script>
 {% endblock %}
