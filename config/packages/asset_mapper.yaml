@@ -1,9 +1,9 @@
 framework:
     asset_mapper:
-        # The paths to make available to the asset mapper.
+        # On commente ou on enlève la ligne qui cherche le dossier assets/
         paths:
-            - assets/
-        missing_import_mode: strict
+            # - assets/ 
+        missing_import_mode: warn # On passe en "warn" pour éviter les crashs
 
 when@prod:
     framework:
