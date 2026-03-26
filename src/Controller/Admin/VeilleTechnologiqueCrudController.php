@@ -37,7 +37,7 @@ class VeilleTechnologiqueCrudController extends AbstractCrudController
         return [
             TextField::new('titre', 'Titre de la veille'),
 
-            TextEditorField::new('description', 'Description / Résumé')
+            TextField::new('description', 'Description / Résumé')
                 ->hideOnIndex(),
 
             UrlField::new('url_source', 'Lien vers la source'),

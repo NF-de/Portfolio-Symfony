@@ -22,7 +22,7 @@ class ArticleCrudController extends AbstractCrudController
 {
     return [
         TextField::new('titre', 'Titre de l\'article'),
-        TextEditorField::new('contenu', 'Contenu')
+        TextField::new('contenu', 'Contenu')
             ->hideOnIndex(),
         AssociationField::new('auteur_id', 'Auteur'),
 
