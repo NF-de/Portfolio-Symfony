@@ -43,8 +43,8 @@
                 <h3>{{ formation.titre }}</h3>
                 <p><strong>{{ formation.etablissement }}</strong> - {{ formation.ville }}</p>
                 <div class="description-raw">{{ formation.description|raw }}</div>
-                <p class="date-parcours">{{ formation.dateDebut|date('Y') }} - {{ formation.dateFin ?
-                    formation.dateFin|date('Y') : 'Présent' }}</p>
+                <p class="date-parcours">{{ formation.dateDebut|date('d/m/Y') }} - {{ formation.dateFin ?
+                    formation.dateFin|date('d/m/Y') : 'Présent' }}</p>
             </div>
             {% if formation.image %}
             <div class="card-image">

@@ -177,7 +177,6 @@ canvas {
 .card {
     width: calc(40% - 15px);
     min-width: 300px;
-    max-height: 400px;
     background-color: rgba(0, 0, 0, 0.7);
     padding: 20px;
     border-radius: 15px;
@@ -191,7 +190,22 @@ canvas {
     flex-direction: column;
     justify-content: space-between;
 }
+.btn-link {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid #fff;
+    border-radius: 20px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.3s;
+    background: rgba(255, 255, 255, 0.1);
+}
 
+.btn-link:hover {
+    background: #fff;
+    color: #000;
+}
 
 .card:hover {
     background-color: rgba(255, 255, 255, 0.05);
@@ -212,6 +226,8 @@ canvas {
     text-align: center;
 
 }
+
+
 
 .hero-card h1 {
     color: #fff;

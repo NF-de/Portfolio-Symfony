@@ -50,8 +50,7 @@ class VeilleTechnologiqueCrudController extends AbstractCrudController
 
             // On cache la date de l'index ET du formulaire
             // Elle sera quand même remplie par le PrePersist de ton Entité
-            DateTimeField::new('date_publication')
-                ->hideOnForm(),
+            DateTimeField::new('date_publication'),
         ];
     }
 }

@@ -14,7 +14,7 @@ final class VeilleController extends AbstractController
     public function index(ManagerRegistry $doctrine): Response
     {
         $veille = $doctrine->getRepository(VeilleTechnologique::class)
-            ->findBy([], ['date_publication' => 'DESC']);
+            ->findBy([], ['date_publication' => 'ASC']);
 
         return $this->render('veille/index.html.twig', [
             'veille' => $veille,

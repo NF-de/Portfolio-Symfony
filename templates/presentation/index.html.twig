@@ -43,15 +43,65 @@
 
         <section class="card card-center" id="section00">
             <p class="texte">
-                Je m'appelle Matéo Fialoux, j'ai 18 ans et je suis actuellement en BTS
-                Services Informatiques aux Organisations à Gap.<br><br>
-                Passionné par le développement web, je conçois des sites modernes,
-                performants et intuitifs.<br><br>
-                Mon objectif est de devenir développeur professionnel et de participer
-                à des projets innovants.
+                Je m’appelle Matéo Fialoux, j’ai 19 ans et je suis étudiant en BTS SIO (SLAM) à Gap. Passionné par
+                l'écosystème web, je me spécialise dans la création d'interfaces modernes, performantes et intuitives.
+                <br>
+                <br>
+                Mon quotidien ? Transformer des idées complexes en expériences fluides en utilisant des outils comme
+                Symfony et en explorant les dernières avancées du CSS. Curieux de nature, je vois chaque projet comme un
+                nouveau défi technique à relever.
+                <br>
+                <br>
+            <h3>Compétences Techniques</h3>
+            <br>
+            <br>
+            Front-end : HTML5, CSS3/SCSS, JavaScript.
+            <br>
+            <br>
+            Back-end : PHP 8, Symfony, SQL (MySQL, PostgreSQL). 
+            <br>
+            <br>
+            Outils : Git/GitHub, VS Code, Composer.
+            <br>
+            <br>
+            <h3>État d'esprit</h3>
+            <br>
+            <br>
+            Curiosité : J'aime observer les méthodes de mes pairs pour enrichir ma propre palette technique.
+            <br>
+            <br>
+            Rigueur : Je porte une attention particulière à l'accessibilité et à la propreté du code, garantissant un travail d'équipe efficace et un produit final de qualité.
+            <br>
+            <br>
+            <h3>Centres d'intérêt</h3>
+            <br>
+            <br>
+            Arts visuels : Passionné de dessin et de tatouage, je cultive mon sens du détail et de l'esthétique durant mon temps libre.
+            <br>
+            <br>
+            Stratégie & Logique : Amateur d'e-sport et de jeux d'échecs, j'apprécie l'analyse, l'optimisation et la réflexion stratégique.
             </p>
         </section>
+        <section class="card card-center" id="competences-section">
+            <h2 class="titre-section">Mes Compétences</h2>
 
+            <div class="competences-grid">
+                {% for competence in competences %}
+                <div class="competence-item">
+                    <i class="{{ competence.icone }}"></i>
+                    <span class="comp-nom">{{ competence.nom }}</span>
+
+                    {# Barre de progression utilisant le champ 'niveau' #}
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: {{ competence.niveau }}%;"></div>
+                    </div>
+                    <small>{{ competence.categorie }}</small>
+                </div>
+                {% else %}
+                <p>Aucune compétence enregistrée pour le moment.</p>
+                {% endfor %}
+            </div>
+        </section>
     </div>
     <footer>
         <h2 class="titre-05 titre-section">Contact</h2>
