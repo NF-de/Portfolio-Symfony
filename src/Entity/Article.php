@@ -31,7 +31,7 @@ class Article
     #[ORM\Column(nullable: true)]
     private ?\DateTime $created_at = null;
 
-    #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'article')]
+    #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'article', orphanRemoval: true, cascade: ['remove'])]
     private Collection $commentaires;
 
     public function __construct()
