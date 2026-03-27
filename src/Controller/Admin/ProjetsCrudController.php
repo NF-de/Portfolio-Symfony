@@ -53,9 +53,10 @@ class ProjetsCrudController extends AbstractCrudController
 
             ChoiceField::new('type', 'Type de projet')
                 ->setChoices([
-                    'Professionnel' => 'professionnel',
-                    'Cours' => 'cours',
+                    'Stage' => 'Stage',
+                    'Ap' => 'Ap',
                     'TP' => 'tp',
+                    'Perso' => 'Personnel',
                 ])
                 ->setRequired(true),
 
