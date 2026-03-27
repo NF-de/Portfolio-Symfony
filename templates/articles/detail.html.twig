@@ -2,42 +2,128 @@
 
 {% block title %}{{ article.titre }} - Mateo{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/articleDetail.css') }}">
+{% endblock %}
+
 {% block body %}
+{# Éléments de décor (fumée et scroll animé) #}
+<div class="background-fumee"></div>
+<div class="scroll-zone">
+    <div class="scroll-content"></div>
+    <div class="scroll-overlay"></div>
+</div>
+
 <main>
-    <section class="card card-center">
+    {# Barre de navigation #}
+    <nav class="navbar">
+            <{% if app.user %} <form method="post" action="{{ path('app_logout') }}" style="display:inline;">
+                <button type="submit" class="btn-logout">Se déconnecter</button>
+                </form>
+                <a href="{{ path('app_acceuil') }}" class="btn-register">Retour a l'acceuil</a>
+                <a href="{{ path('app_articles') }}" class="btn-register">Retour aux articles</a>
+
+                {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('admin') }}" class="btn-register">Dashboard</a>
+                {% endif %}
+                {% else %}
+                <a href="{{ path('app_login') }}" class="btn-login">Se connecter</a>
+                <a href="{{ path('app_register') }}" class="btn-register">Créer un compte</a>
+                <a href="{{ path('app_acceuil') }}" class="btn-register">Retour a l'acceuil</a>
+                <a href="{{ path('app_articles') }}" class="btn-register">Retour aux articles</a>
+                {% endif %}>
+        </nav>
+
+    {# Titre de l'article #}
+    <div class="hero-card">
         <h1>{{ article.titre }}</h1>
-        <p>{{ article.contenu }}</p>
-        <p><em>Publié le {{ article.createdAt|date('d/m/Y H:i') }} par {{ article.auteurId }}</em></p>
-    </section>
+    </div>
 
-    <section class="card card-center">
-        <h2>Commentaires ({{ article.commentaires|length }})</h2>
-
-        {% if article.commentaires|length > 0 %}
-            <ul>
-                {% for commentaire in article.commentaires %}
-                    <li>
-                        <strong>{{ commentaire.user }}</strong> 
-                        <em>le {{ commentaire.createdAt|date('d/m/Y H:i') }}</em>
-                        <p>{{ commentaire.contenu }}</p>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>Aucun commentaire pour le moment.</p>
-        {% endif %}
-    </section>
-
-    {% if app.user %}
-        <section class="card card-center">
-            <h2>Ajouter un commentaire</h2>
-            {{ form_start(form) }}
-                {{ form_widget(form) }}
-                <button class="btn-scenik" type="submit">Envoyer</button>
-            {{ form_end(form) }}
+    <div class="cards-container">
+        {# Contenu principal de l'article #}
+        <section class="card" style="width: 100%; max-height: none;">
+            <div class="card-text" style="max-height: none;">
+                <div class="description-raw" style="font-size: 1.2rem; line-height: 1.6; text-align: left; margin-bottom: 20px;">
+                    {{ article.contenu|raw }}
+                </div>
+                
+                <p class="date-parcours" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+                    Publié le {{ article.createdAt|date('d/m/Y') }} 
+                    {% if article.auteurId %} par {{ article.auteurId }}{% endif %}
+                </p>
+            </div>
+            
+            {% if article.image is defined and article.image %}
+                <div class="card-image" style="margin-top: 20px;">
+                    <img src="{{ asset('uploads/articles/' ~ article.image) }}" alt="{{ article.titre }}" class="image-projet">
+                </div>
+            {% endif %}
         </section>
-    {% else %}
-        <p>Vous devez être connecté pour commenter.</p>
-    {% endif %}
+
+        {# Section Commentaires #}
+        <section class="card" style="width: 100%; max-height: none; margin-top: 30px;">
+            <div class="card-text" style="max-height: none;">
+                <h3 class="titre-section" style="font-size: 1.5rem; margin-bottom: 25px;">
+                    Commentaires ({{ article.commentaires|length }})
+                </h3>
+                
+                <div class="commentaires-liste" style="text-align: left;">
+                    {% for commentaire in article.commentaires %}
+                        <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 3px solid #fff;">
+                            <strong style="color: #fff;">{{ commentaire.user }}</strong> 
+                            <small style="opacity: 0.6; margin-left: 10px;">le {{ commentaire.createdAt|date('d/m/Y H:i') }}</small>
+                            <p style="margin-top: 10px; font-size: 1rem; color: rgba(255,255,255,0.9);">{{ commentaire.contenu }}</p>
+                        </div>
+                    {% else %}
+                        <p style="text-align: center; opacity: 0.5;">Aucun commentaire pour le moment.</p>
+                    {% endfor %}
+                </div>
+
+                {# Formulaire d'ajout de commentaire #}
+                {% if app.user %}
+                    {# Remplace la partie du formulaire par celle-ci #}
+<div class="form-commentaire-container">
+    {{ form_start(form, {'attr': {'class': 'form-scenik'}}) }}
+        
+        {# On force le rendu du champ 'contenu' avec nos classes CSS #}
+        {{ form_widget(form.contenu, {
+            'attr': {
+                'class': 'form-input-scenik',
+                'placeholder': 'Écrivez votre message ici...',
+                'rows': '6',
+                'style': 'width: 100%; background: rgba(0,0,0,0.8); border: 1px solid #fff; color: #fff; padding: 15px; border-radius: 10px; font-family: "Exo 2", sans-serif;'
+            }
+        }) }}
+        
+        {# Pour cacher les labels automatiques de Symfony qui polluent le design #}
+        <div style="display:none;">
+            {{ form_rest(form) }}
+        </div>
+
+        <button class="btn-scenik" type="submit" style="margin-top: 20px;">Envoyer le commentaire</button>
+    {{ form_end(form) }}
+</div>
+                {% else %}
+                    <p style="margin-top: 30px; font-style: italic;">
+                        <a href="{{ path('app_login') }}" style="color: #fff; text-decoration: underline;">Connectez-vous</a> pour commenter.
+                    </p>
+                {% endif %}
+            </div>
+        </section>
+    </div>
+
+    {# Footer #}
+    <footer>
+        <h2 class="titre-section">Contact</h2>
+        <div class="footer-content">
+            <span>06 38 53 63 87</span>
+            <div class="footer-divider"></div>
+            <span>fialouxmateo@gmail.com</span>
+        </div>
+    </footer>
 </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('script.js') }}"></script>
 {% endblock %}

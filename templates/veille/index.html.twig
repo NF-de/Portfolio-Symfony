@@ -2,28 +2,91 @@
 
 {% block title %}Veille Technologique - Mateo{% endblock %}
 
-{% block body %}
-<main>
-    <h1>Veille Technologique</h1>
+{% block stylesheets %}
+{# On utilise le même CSS pour garder le design cohérent #}
+<link rel="stylesheet" href="{{ asset('styles/veille.css') }}">
+{% endblock %}
 
-    {% if veille is not empty %}
-        <section class="cards-container">
-            {% for item in veille %}
-                <section class="card">
-                    {% if item.image %}
-                        <img src="{{ asset('uploads/veille/' ~ item.image) }}" alt="{{ item.titre }}" style="max-width:200px; margin-bottom:10px;">
-                    {% endif %}
-                    <h3>{{ item.titre }}</h3>
-                    <p>{{ item.description }}</p>
-                    {% if item.urlSource %}
-                        <p><a href="{{ item.urlSource }}" target="_blank">Voir la source</a></p>
-                    {% endif %}
-                    <p><em>Publié le {{ item.datePublication|date('d/m/Y') }}</em></p>
-                </section>
-            {% endfor %}
-        </section>
-    {% else %}
-        <p>Aucun article de veille pour le moment.</p>
-    {% endif %}
+{% block body %}
+{# 1. Éléments de décor identiques #}
+<div class="background-fumee"></div>
+<div class="scroll-zone">
+    <div class="scroll-content"></div>
+    <div class="scroll-overlay"></div>
+</div>
+
+<main>
+    {# 2. Barre de navigation #}
+    <nav class="navbar">
+        <{% if app.user %} <form method="post" action="{{ path('app_logout') }}" style="display:inline;">
+            <button type="submit" class="btn-logout">Se déconnecter</button>
+            </form>
+            <a href="{{ path('app_acceuil') }}" class="btn-register">Retour a l'acceuil</a>
+
+            {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('admin') }}" class="btn-register">Dashboard</a>
+            {% endif %}
+            {% else %}
+            <a href="{{ path('app_login') }}" class="btn-login">Se connecter</a>
+            <a href="{{ path('app_register') }}" class="btn-register">Créer un compte</a>
+            <a href="{{ path('app_acceuil') }}" class="btn-register">Retour a l'acceuil</a>
+
+            {% endif %}>
+    </nav>
+
+
+    {# 3. Titre de la page #}
+    <div class="hero-card">
+        <h1>Veille technologique</h1>
+    </div>
+
+    <div class="cards-container">
+        {% for item in veille %}
+        {# On utilise la structure .card .card-horizontal pour un beau rendu #}
+        <div class="card card-horizontal">
+            <div class="card-text">
+                <h3>{{ item.titre }}</h3>
+                <div class="description-raw" style="margin: 15px 0;">
+                    {{ item.description }}
+                </div>
+
+                {% if item.urlSource %}
+                <a href="{{ item.urlSource }}" target="_blank" class="btn-register"
+                    style="font-size: 12px; padding: 5px 12px; margin-bottom: 10px;">
+                    Voir la source
+                </a>
+                {% endif %}
+
+                <p class="date-parcours" style="margin-top: 10px;">
+                    Publié le {{ item.datePublication ? item.datePublication|date('d/m/Y') : 'récemment' }}
+                </p>
+            </div>
+
+            {% if item.image %}
+            <div class="card-image">
+                <img src="{{ asset('uploads/veille/' ~ item.image) }}" alt="{{ item.titre }}">
+            </div>
+            {% endif %}
+        </div>
+        {% else %}
+        <div class="card-center">
+            <p>Aucun article de veille pour le moment.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    {# 4. Footer #}
+    <footer>
+        <h2 class="titre-section">Contact</h2>
+        <div class="footer-content">
+            <span>06 38 53 63 87</span>
+            <div class="footer-divider"></div>
+            <span>fialouxmateo@gmail.com</span>
+        </div>
+    </footer>
 </main>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('script.js') }}"></script>
 {% endblock %}

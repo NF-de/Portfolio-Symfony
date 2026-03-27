@@ -11,15 +11,23 @@ html {
 }
 
 body {
-    height: 100vh;
-    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     font-family: 'Exo 2', sans-serif;
+    margin: 0;
 }
 
 h1 {
     font-size: 8vw;
 }
 
+main {
+    flex: 1;
+    /* prend tout l'espace restant */
+    display: flex;
+    flex-direction: column;
+}
 
 
 .background-fumee {
@@ -39,11 +47,13 @@ h1 {
         radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
     background-blend-mode: lighten;
 }
+
 .card-link {
-  text-decoration: none;
-  color: inherit;
-  display: block;
+    text-decoration: none;
+    color: inherit;
+    display: block;
 }
+
 
 .scroll-zone {
     position: fixed;
@@ -103,22 +113,41 @@ canvas {
 }
 
 .cards-container {
-    max-width: 70vw;
+    max-width: 85vw;
     margin: 0 auto;
     display: flex;
-    flex-direction: column;
-    gap: 40px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding-bottom: 50px;
 }
 
-.card.right {
-    align-self: flex-end;
-    margin-right: 5%;
+.card-image {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    /* Il va remplir les 400px restants */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 10px;
 }
 
-.card.left {
-    align-self: flex-start;
-    margin-left: 5%;
+.card-image img {
+    max-width: 100%;
+    max-height: 100%;
+
+    object-fit: contain;
+
+    width: auto;
+    height: auto;
+
+    display: block;
+    opacity: 0.9;
 }
+
 .btn-register,
 .btn-login,
 .btn-logout {
@@ -134,29 +163,43 @@ canvas {
     text-decoration: none;
     cursor: pointer;
     transition: all 0.3s ease;
+    text-align: center;
+}
+
+.titre-section-parcours {
+    color: #fff;
+    text-align: center;
+    font-size: 3rem;
+    margin: 50px 0 30px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    width: 100%;
 }
 
 .card {
-    width: 45%;
+    width: calc(40% - 15px);
+    min-width: 300px;
+    max-height: 400px;
     background-color: rgba(0, 0, 0, 0.7);
     padding: 20px;
     border-radius: 15px;
+    overflow: hidden;
     color: #fff;
     text-align: center;
-    margin: 20px;
-
+    margin: 0;
     border: 1px solid #ffffff;
-    transition: background-color 0.4s ease,
-        box-shadow 0.4s ease,
-        transform 0.4s ease;
-    }
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 
-.card img {
-    width: 100%;
-    max-width: 200px;
-    height: auto;
-    border-radius: 10px;
-    margin-bottom: 15px;
+.card-text {
+    flex: 0 0 auto;
+    margin-bottom: 20px;
+    /* On retire le max-height ou on l'augmente pour ne pas couper le texte agrandi */
+    max-height: none; 
+    overflow: visible;
 }
 
 
@@ -167,22 +210,20 @@ canvas {
 
 .hero-card {
     display: flex;
-    align-items: flex-start;
-    gap: 80px;
-    margin-top: 150px;
-    margin-left: 10%;
-}
-
-.hero-card .photo img {
-    width: 200px;
-    height: auto;
-    border-radius: 10px;
-    filter: grayscale(100%);
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.01);
+    flex-direction: column;
+    /* colonne pour le titre centré */
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+    /* espace depuis le haut */
+    margin-bottom: 60px;
+    text-align: center;
 }
 
 .hero-card .info {
     position: relative;
+    text-align: center;
+
 }
 
 .hero-card h1 {
@@ -217,75 +258,6 @@ canvas {
     text-align: right;
 }
 
-.texte {
-    text-align: left;
-}
-
-.titre-00 {
-    font-size: 40px;
-}
-
-
-.titre-01 {
-    font-size: 40px;
-}
-
-
-.titre-02 {
-    font-size: 40px;
-}
-
-
-.titre-03 {
-    font-size: 40px;
-}
-
-
-.titre-04 {
-    font-size: 40px;
-}
-
-
-.titre-05 {
-    font-size: 40px;
-}
-
-.titre-06 {
-    font-size: 40px;
-}
-
-.titre-07 {
-    font-size: 40px;
-}
-
-.titre-08 {
-    font-size: 40px;
-}
-
-.titre-09 {
-    font-size: 40px;
-}
-
-.titre-10 {
-    font-size: 40px;
-}
-
-.titre-11 {
-    font-size: 40px;
-}
-
-.titre-12 {
-    font-size: 40px;
-}
-
-.titre-13 {
-    font-size: 40px;
-}
-
-.titre-14 {
-    font-size: 40px;
-}
-
 .navbar {
     position: fixed;
     top: 10px;
@@ -316,18 +288,19 @@ canvas {
 }
 
 footer {
-
+    margin-top: auto;
     background-color: #000;
     color: #fff;
     text-align: center;
     padding: 15px 0;
     width: 100%;
-    position: relative;
     font-family: 'Exo 2', sans-serif;
     font-size: 20px;
     border-top: 1px solid white;
     border-bottom: 1px solid white;
     z-index: 10;
+    position: relative;
+    /* ne plus utiliser fixed */
 }
 
 .footer-content {
@@ -364,16 +337,7 @@ footer {
     color: #fff;
     text-align: center;
     margin: 20px;
-
-    border: 1px solid #ffffff;
-    box-shadow:
-        0 0 3px #ffffff,
-        0 0 6px #ffffff,
-        0 0 12px #ffffff;
-
-    transition: background-color 0.4s ease,
-        box-shadow 0.4s ease,
-        transform 0.4s ease;
+    border: 2px solid #ffffff;
 }
 
 .btn-scenik {
@@ -389,11 +353,14 @@ footer {
     letter-spacing: 1px;
     cursor: pointer;
     text-transform: uppercase;
-    transition: all 0.4s ease;
-    box-shadow:
-        0 0 5px #ffffff,
-        0 0 10px #ffffff,
-        0 0 20px #ffffff;
+}
+
+.btn-scenik a {
+    color: inherit;
+    text-decoration: none;
+}
+.btn-scenik:active {
+    transform: scale(0.97);
 }
 h3 {
     font-size: 2.2rem;
@@ -414,28 +381,6 @@ h3 {
     font-size: 18px !important;
     margin-bottom: 10px;
 }
-.btn-scenik a {
-    color: inherit;
-    text-decoration: none;
-}
-
-.btn-scenik:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    transform: scale(1.05);
-    box-shadow:
-        0 0 10px #ffffff,
-        0 0 20px #ffffff,
-        0 0 40px #ffffff;
-}
-
-.btn-scenik:active {
-    transform: scale(0.97);
-    box-shadow:
-        0 0 5px #ffffff,
-        0 0 10px #ffffff;
-}
-
 .logos img {
     width: 25%;
     max-width: 120px;
@@ -455,6 +400,65 @@ h3 {
     margin: 20px 0;
     letter-spacing: 1px;
     text-transform: uppercase;
+}
+
+/* --- STYLISATION DU FORMULAIRE DE COMMENTAIRE --- */
+
+/* Conteneur du formulaire pour l'alignement */
+.form-scenik {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+    align-items: center;
+}
+
+/* La zone de texte (textarea ou input) */
+.form-input-scenik {
+    width: 100%;
+    min-height: 100px;
+    /* Donne de la hauteur si c'est un textarea */
+    background-color: rgba(0, 0, 0, 0.8);
+    /* Fond sombre comme tes cartes */
+    border: 1px solid #ffffff;
+    /* Bordure blanche fine */
+    border-radius: 10px;
+    padding: 15px;
+    color: #ffffff;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    resize: vertical;
+    /* Permet à l'utilisateur d'agrandir la zone */
+}
+
+/* Effet au clic sur le champ */
+.form-input-scenik:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    border-color: #ffffff;
+}
+
+/* Style du texte d'aide (placeholder) */
+.form-input-scenik::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Ajustement du bouton Envoyer pour qu'il ressemble à tes autres boutons */
+.btn-submit-comment {
+    align-self: center;
+    min-width: 200px;
+}
+
+/* Correction pour les labels Symfony qui pourraient apparaître en blanc */
+.form-scenik label {
+    display: block;
+    color: #fff;
+    margin-bottom: 8px;
+    font-weight: 600;
+    text-align: left;
+    width: 100%;
 }
 
 /* --- Responsive (tablettes et petits écrans) --- */
@@ -512,13 +516,8 @@ h3 {
         font-size: 1.5rem;
     }
 
-    .hero-card {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 20px;
-        margin-left: 0;
-        margin-top: 80px;
+    .form-input-scenik {
+        width: 100%;
     }
 h3 {
         font-size: 1.8rem;
@@ -527,14 +526,32 @@ h3 {
     .description-raw {
         font-size: 16px;
     }
+    .hero-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 20px;
+        margin-left: 0;
+        margin-top: 80px;
+    }
+
     .hero-card .photo-scenik img {
         width: 100%;
         max-width: 250px;
     }
 
     .cards-container {
-        max-width: 95vw;
-        gap: 20px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card,
+    .card.card-horizontal,
+    .card.right,
+    .card.left {
+        width: 95%;
+        /* Reprend toute la largeur */
+        min-width: auto;
     }
 
     .card-center {
@@ -547,9 +564,6 @@ h3 {
         font-size: 18px;
     }
 
-    .card {
-        width: 90%;
-    }
 
     .scroll-zone {
         width: 95vw;

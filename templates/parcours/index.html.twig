@@ -15,19 +15,20 @@
 
 <main>
     <nav class="navbar">
-        {% if app.user %}
-            <form method="post" action="{{ path('app_logout') }}" style="display:inline;">
-                <button type="submit" class="btn-logout">Se déconnecter</button>
+        {% if app.user %} <form method="post" action="{{ path('app_logout') }}" style="display:inline;">
+            <button type="submit" class="btn-logout">Se déconnecter</button>
             </form>
-            <a href="{{ path('app_acceuil') }}" class="btn-register">Retour à l'accueil</a>
+            <a href="{{ path('app_acceuil') }}" class="btn-register">Retour a l'acceuil</a>
+
             {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path('admin') }}" class="btn-register">Dashboard</a>
+            <a href="{{ path('admin') }}" class="btn-register">Dashboard</a>
             {% endif %}
-        {% else %}
+            {% else %}
             <a href="{{ path('app_login') }}" class="btn-login">Se connecter</a>
             <a href="{{ path('app_register') }}" class="btn-register">Créer un compte</a>
-            <a href="{{ path('app_acceuil') }}" class="btn-register">Retour à l'accueil</a>
-        {% endif %}
+            <a href="{{ path('app_acceuil') }}" class="btn-register">Retour a l'acceuil</a>
+
+            {% endif %}>
     </nav>
 
     <div class="hero-card">
@@ -42,7 +43,8 @@
                 <h3>{{ formation.titre }}</h3>
                 <p><strong>{{ formation.etablissement }}</strong> - {{ formation.ville }}</p>
                 <div class="description-raw">{{ formation.description|raw }}</div>
-                <p class="date-parcours">{{ formation.dateDebut|date('Y') }} - {{ formation.dateFin ? formation.dateFin|date('Y') : 'Présent' }}</p>
+                <p class="date-parcours">{{ formation.dateDebut|date('Y') }} - {{ formation.dateFin ?
+                    formation.dateFin|date('Y') : 'Présent' }}</p>
             </div>
             {% if formation.image %}
             <div class="card-image">
@@ -61,7 +63,8 @@
                 <h3>{{ experience.poste }}</h3>
                 <p><strong>{{ experience.entreprise }}</strong></p>
                 <div class="description-raw">{{ experience.description|raw }}</div>
-                <p class="date-parcours">{{ experience.dateDebut|date('Y') }} - {{ experience.dateFin ? experience.dateFin|date('Y') : 'Présent' }}</p>
+                <p class="date-parcours">{{ experience.dateDebut|date('Y') }} - {{ experience.dateFin ?
+                    experience.dateFin|date('Y') : 'Présent' }}</p>
             </div>
             {% if experience.image is defined and experience.image %}
             <div class="card-image">

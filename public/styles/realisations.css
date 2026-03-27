@@ -313,7 +313,25 @@ canvas {
 .titre-14 {
     font-size: 40px;
 }
+h3 {
+    font-size: 2.2rem;
+    /* Environ 35px, plus dynamique que le pixel fixe */
+    margin-bottom: 15px;
+    font-weight: 600;
+    line-height: 1.2;
+}
 
+.description-raw {
+    font-size: 18px;
+    /* Passage de 14px à 18px pour la lisibilité */
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.description-raw p {
+    font-size: 18px !important;
+    margin-bottom: 10px;
+}
 .navbar {
     position: fixed;
     top: 10px;
@@ -521,7 +539,13 @@ footer {
         margin-left: 0;
         margin-top: 80px;
     }
+h3 {
+        font-size: 1.8rem;
+    }
 
+    .description-raw {
+        font-size: 16px;
+    }
     .hero-card .photo-scenik img {
         width: 100%;
         max-width: 250px;
@@ -627,4 +651,5 @@ footer {
         max-width: 100%;
         margin: 10px auto;
     }
+    
 }

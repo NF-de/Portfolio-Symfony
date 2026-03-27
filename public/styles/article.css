@@ -189,12 +189,12 @@ canvas {
     justify-content: space-between;
 }
 .card-text {
-    flex: 0 0 auto; /* Ne s'étire pas, garde sa taille naturelle */
-    margin-bottom: 10px;
-    max-height: 150px; /* Optionnel : pour éviter que le texte mange toute la carte */
-    overflow: hidden;
+    flex: 0 0 auto;
+    margin-bottom: 20px;
+    /* On retire le max-height ou on l'augmente pour ne pas couper le texte agrandi */
+    max-height: none; 
+    overflow: visible;
 }
-
 
 .card:hover {
     background-color: rgba(255, 255, 255, 0.05);
@@ -371,7 +371,25 @@ footer {
         0 0 5px #ffffff,
         0 0 10px #ffffff;
 }
+h3 {
+    font-size: 2.2rem;
+    /* Environ 35px, plus dynamique que le pixel fixe */
+    margin-bottom: 15px;
+    font-weight: 600;
+    line-height: 1.2;
+}
 
+.description-raw {
+    font-size: 18px;
+    /* Passage de 14px à 18px pour la lisibilité */
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.description-raw p {
+    font-size: 18px !important;
+    margin-bottom: 10px;
+}
 .logos img {
     width: 25%;
     max-width: 120px;
@@ -480,7 +498,13 @@ footer {
     .card-center p {
         font-size: 18px;
     }
+h3 {
+        font-size: 1.8rem;
+    }
 
+    .description-raw {
+        font-size: 16px;
+    }
 
     .scroll-zone {
         width: 95vw;
