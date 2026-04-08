@@ -133,7 +133,7 @@ canvas {
 }
 
 .progress-fill {
-    background: #007bff;
+    background: #ffffff;
     /* Ou votre couleur fétiche */
     height: 100%;
     border-radius: 4px;
@@ -196,13 +196,6 @@ canvas {
     transition: background-color 0.4s ease,
         box-shadow 0.4s ease,
         transform 0.4s ease;
-}
-
-
-
-.card:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-    transform: scale(1.03);
 }
 
 .hero-card {

@@ -422,7 +422,11 @@ h3 {
 .btn-scenik:hover {
     background: rgba(255, 255, 255, 0.1);
     color: #ffffff;
-    transform: scale(1.05);
+    transform: scale(1.05);.card, .hero-card {
+    position: relative; /* Indispensable pour positionner la lueur */
+    overflow: hidden;    /* Pour que la lueur ne dépasse pas des bords arrondis */
+}
+
     box-shadow:
         0 0 10px #ffffff,
         0 0 20px #ffffff,

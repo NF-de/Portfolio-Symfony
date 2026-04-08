@@ -65,7 +65,7 @@ class ProjetsCrudController extends AbstractCrudController
                 ->setUploadDir($imgUploadDir)
                 ->setBasePath($imgBasePath)
                 ->setUploadedFileNamePattern('[slug]-[timestamp].[extension]')
-                ->setRequired($pageName === Crud::PAGE_NEW)
+                ->setRequired(false)
                 ->hideOnIndex(),
 
             Field::new('rapportPdf', 'Rapport de stage (PDF)')

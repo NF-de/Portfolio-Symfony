@@ -32,9 +32,11 @@ class Formations
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $ville = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?string $rapportPdf = null;
     public function getId(): ?int
     {
         return $this->id;
@@ -117,10 +119,20 @@ class Formations
         return $this->image;
     }
 
-    public function setImage(string $image): static
+    public function setImage(?string $image): static
     {
         $this->image = $image;
 
+        return $this;
+    }
+    public function getRapportPdf(): ?string
+    {
+        return $this->rapportPdf;
+    }
+
+    public function setRapportPdf(?string $rapportPdf): self
+    {
+        $this->rapportPdf = $rapportPdf;
         return $this;
     }
 }

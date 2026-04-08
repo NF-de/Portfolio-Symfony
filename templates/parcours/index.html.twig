@@ -17,18 +17,18 @@
     <nav class="navbar">
         {% if app.user %} <form method="post" action="{{ path('app_logout') }}" style="display:inline;">
             <button type="submit" class="btn-logout">Se déconnecter</button>
-            </form>
-            <a href="{{ path('app_acceuil') }}" class="btn-register">Retour a l'acceuil</a>
+        </form>
+        <a href="{{ path('app_acceuil') }}" class="btn-register">Retour a l'acceuil</a>
 
-            {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('admin') }}" class="btn-register">Dashboard</a>
-            {% endif %}
-            {% else %}
-            <a href="{{ path('app_login') }}" class="btn-login">Se connecter</a>
-            <a href="{{ path('app_register') }}" class="btn-register">Créer un compte</a>
-            <a href="{{ path('app_acceuil') }}" class="btn-register">Retour a l'acceuil</a>
+        {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('admin') }}" class="btn-register">Dashboard</a>
+        {% endif %}
+        {% else %}
+        <a href="{{ path('app_login') }}" class="btn-login">Se connecter</a>
+        <a href="{{ path('app_register') }}" class="btn-register">Créer un compte</a>
+        <a href="{{ path('app_acceuil') }}" class="btn-register">Retour a l'acceuil</a>
 
-            {% endif %}>
+        {% endif %}>
     </nav>
 
     <div class="hero-card">
@@ -50,6 +50,9 @@
             <div class="card-image">
                 <img src="{{ asset('uploads/formations/' ~ formation.image) }}" alt="{{ formation.titre }}">
             </div>
+            {% endif %}
+            {% if formation.rapportPdf %}
+            <a href="{{ asset('uploads/projets/' ~ formation.rapportPdf) }}" target="_blank" class="btn-link">PDF</a>
             {% endif %}
         </section>
         {% endfor %}
